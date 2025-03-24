@@ -10,6 +10,7 @@
     #face-widget-box {
       background: white; padding: 20px; border-radius: 10px;
       text-align: center; width: 400px;
+      position: relative;
     }
     video { width: 100%; border-radius: 10px; }
   `;
@@ -19,6 +20,7 @@
   modal.id = 'face-widget-modal';
   modal.innerHTML = `
     <div id="face-widget-box">
+      <button id="fw-close" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer;">❌</button>
       <h3>Face Verification</h3>
       <video id="fw-video" autoplay playsinline></video>
       <button id="fw-start">Verify Face</button>
@@ -30,6 +32,7 @@
   const video = document.getElementById('fw-video');
   const status = document.getElementById('fw-status');
   const startBtn = document.getElementById('fw-start');
+  const closeBtn = document.getElementById('fw-close');
 
   let stream;
   navigator.mediaDevices.getUserMedia({ video: true }).then(s => {
@@ -71,9 +74,14 @@
       status.textContent = '✅ Verified!';
       stream.getTracks().forEach(track => track.stop());
       setTimeout(() => modal.remove(), 1500);
-      window.dispatchEvent(new Event('FaceVerified')); // Your platform can listen for this
+      window.dispatchEvent(new Event('FaceVerified'));
     } else {
       status.textContent = '❌ Verification failed!';
     }
+  };
+
+  closeBtn.onclick = () => {
+    if (stream) stream.getTracks().forEach(track => track.stop());
+    modal.remove();
   };
 })();
