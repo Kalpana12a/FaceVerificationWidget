@@ -2,17 +2,17 @@
   const style = document.createElement('style');
   style.innerHTML = `
     #face-widget-modal {
-      position: fixed; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.6); z-index: 9999;
-      display: flex; align-items: center; justify-content: center;
-    }
-    #face-widget-box {
-      background: white; padding: 20px; border-radius: 10px;
-      text-align: center; width: 400px;
-      position: relative;
-    }
-    video { width: 100%; border-radius: 10px; }
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #face-widget-box {
+    background: white; padding: 20px; border-radius: 10px;
+    text-align: center; width: 400px;
+    position: relative; /* <-- this is the key line */
+  }
+  video { width: 100%; border-radius: 10px; }
   `;
   document.head.appendChild(style);
 
@@ -20,8 +20,16 @@
   modal.id = 'face-widget-modal';
   modal.innerHTML = `
     <div id="face-widget-box">
-      <button id="fw-close" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer;">❌</button>
-      <h3>Face Verification</h3>
+<button id="fw-close" style="
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+">❌</button>
+<h3>Face Verification</h3>
       <video id="fw-video" autoplay playsinline></video>
       <button id="fw-start">Verify Face</button>
       <p id="fw-status">Waiting to start...</p>
