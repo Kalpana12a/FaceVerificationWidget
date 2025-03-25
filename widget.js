@@ -82,7 +82,11 @@
       status.textContent = '✅ Verified!';
       stream.getTracks().forEach(track => track.stop());
       setTimeout(() => modal.remove(), 1500);
-      window.dispatchEvent(new Event('FaceVerified'));
+if (mode === 'register') {
+  window.dispatchEvent(new Event('FaceRegistered'));
+} else {
+  window.dispatchEvent(new Event('FaceVerified'));
+}
     } else {
       status.textContent = '❌ Verification failed!';
     }
